@@ -1,0 +1,34 @@
+# Environment variables
+.env
+.env.local
+.env.*.local
+
+# IDE and Editor
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.DS_Store
+
+# Logs
+*.log
+debug_*.txt
+error_*.txt
+
+# Uploads and Cache
+/uploads/*
+/cache/*
+/tmp/*
+
+# Composer
+/vendor/
+composer.lock
+
+# NPM
+/node_modules/
+npm-debug.log
+
+# OS files
+Thumbs.db
+.DS_Store

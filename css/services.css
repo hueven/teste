@@ -1,0 +1,305 @@
+/**
+ * Wide Studio - Services Page Styles
+ * Premium card-based design with images
+ */
+
+/* =================================
+   SERVICES SECTION
+   ================================= */
+.services-section {
+    padding: 160px 5vw 100px;
+    max-width: 1400px;
+    margin: 0 auto;
+    background: transparent;
+    position: relative;
+    z-index: 1;
+}
+
+.services-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 40px;
+    margin-top: 60px;
+}
+
+/* =================================
+   PREMIUM HEADER
+   ================================= */
+.services-header {
+    text-align: center;
+    margin-bottom: 20px;
+    padding: 0 20px;
+}
+
+.services-title {
+    font-size: clamp(2rem, 4vw, 3.5rem);
+    font-weight: 300;
+    letter-spacing: 0.02em;
+    color: var(--text-color);
+    margin: 0;
+    position: relative;
+    will-change: transform, opacity, filter;
+}
+
+/* =================================
+   SERVICE CARD - Grid Layout without Card Appearance
+   ================================= */
+.service-card {
+    position: relative;
+    max-width: 1100px;
+    margin: 0 auto;
+    width: 100%;
+    display: grid;
+    grid-template-columns: 1fr 500px;
+    min-height: 320px;
+    gap: 40px;
+    background: transparent;
+
+    /* Transições para scroll focus effect */
+    transition: filter 0.5s cubic-bezier(0.16, 1, 0.3, 1),
+        opacity 0.5s ease;
+}
+
+/* Card focado (mais próximo do centro) */
+.service-card.focused {
+    filter: blur(0px);
+    opacity: 1;
+}
+
+/* Cards não focados */
+.service-card.unfocused {
+    filter: blur(3px);
+    opacity: 0.6;
+}
+
+.service-card.unfocused .service-image {
+    filter: grayscale(75%);
+}
+
+/* Inverte a ordem nos cards pares (imagem à esquerda) */
+.service-card:nth-child(even) {
+    direction: rtl;
+}
+
+.service-card:nth-child(even) .service-content,
+.service-card:nth-child(even) .service-image {
+    direction: ltr;
+}
+
+/* =================================
+   SERVICE CONTENT (Left Side)
+   ================================= */
+.service-content {
+    position: relative;
+    z-index: 2;
+    padding: 60px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    background: transparent;
+}
+
+.service-number {
+    display: none;
+}
+
+.service-title-pill {
+    display: inline-block;
+    width: fit-content;
+    background: var(--bg-color);
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    border-radius: 50px;
+    padding: 10px 24px;
+    margin-bottom: 24px;
+}
+
+.service-title {
+    font-family: var(--font-main);
+    font-size: clamp(1.5rem, 2.4vw, 1.85rem);
+    font-weight: 400;
+    line-height: 1.2;
+    letter-spacing: -0.02em;
+    margin: 0;
+    color: var(--text-color);
+}
+
+.service-description {
+    font-family: var(--font-main);
+    font-size: clamp(1rem, 1.4vw, 1.1rem);
+    line-height: 1.8;
+    color: #000;
+    margin: 0;
+    font-weight: 400;
+}
+
+/* =================================
+   SERVICE IMAGE (Right Side - Free Floating)
+   ================================= */
+.service-image {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    z-index: 1;
+    border-radius: 20px;
+    transition: filter 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+    will-change: transform;
+}
+
+/* Unified styling for images and videos */
+.service-media {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+    display: block;
+}
+
+/* Legacy support for img tag */
+.service-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+}
+
+/* Remover fade gradient */
+.service-image::before {
+    display: none;
+}
+
+/* =================================
+   EMPTY STATE
+   ================================= */
+.empty-message {
+    padding: 60px 20px;
+    text-align: center;
+    opacity: 0.5;
+    font-size: 1rem;
+}
+
+/* =================================
+   RESPONSIVE - LARGE TABLET
+   ================================= */
+@media (max-width: 1200px) {
+    .services-section {
+        padding: 140px 4vw 80px;
+    }
+
+    .service-card {
+        grid-template-columns: 1fr 350px;
+        min-height: 300px;
+        gap: 30px;
+    }
+
+    .service-content {
+        padding: 40px 0;
+    }
+}
+
+/* =================================
+   RESPONSIVE - TABLET
+   ================================= */
+@media (max-width: 900px) {
+    .service-card {
+        grid-template-columns: 1fr 300px;
+        min-height: 280px;
+        gap: 24px;
+    }
+
+    .service-content {
+        padding: 30px 0;
+    }
+}
+
+/* =================================
+   RESPONSIVE - MOBILE
+   ================================= */
+@media (max-width: 768px) {
+    .services-section {
+        padding: 120px var(--padding-x) 60px;
+    }
+
+    .services-grid {
+        gap: 40px;
+        margin-top: 40px;
+    }
+
+    .service-card {
+        grid-template-columns: 1fr;
+        grid-template-rows: auto 200px;
+        max-width: 100%;
+        min-height: auto;
+        gap: 20px;
+    }
+
+    .service-content {
+        padding: 0;
+        order: 1;
+    }
+
+    .service-image {
+        order: 2;
+        height: 200px;
+    }
+
+    .service-title-pill {
+        padding: 10px 24px;
+        margin-bottom: 20px;
+    }
+
+    .service-title {
+        font-size: clamp(1.5rem, 4.5vw, 1.85rem);
+    }
+
+    .service-description {
+        font-size: 1rem;
+        line-height: 1.7;
+    }
+}
+
+/* =================================
+   RESPONSIVE - SMALL MOBILE
+   ================================= */
+@media (max-width: 480px) {
+    .service-card {
+        grid-template-rows: auto 180px;
+    }
+
+    .service-image {
+        height: 180px;
+    }
+
+    .service-title-pill {
+        padding: 8px 20px;
+    }
+
+    .service-title {
+        font-size: 1.4rem;
+    }
+
+    .service-description {
+        font-size: 0.95rem;
+        line-height: 1.65;
+    }
+}
+
+/* =================================
+   DARK MODE
+   ================================= */
+body[data-dark-mode="true"] .services-title {
+    color: var(--dark-text-color);
+}
+
+body[data-dark-mode="true"] .service-title-pill {
+    background: var(--dark-bg-color);
+    border-color: rgba(255, 255, 255, 0.15);
+}
+
+body[data-dark-mode="true"] .service-title {
+    color: var(--dark-text-color);
+}
+
+body[data-dark-mode="true"] .service-description {
+    color: #fff;
+}

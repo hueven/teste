@@ -1,0 +1,559 @@
+/**
+ * Edit Project Page Styles
+ * Visual editing interface for projects
+ */
+
+/* ===================================
+   EDIT MODE BODY
+   =================================== */
+body.edit-mode {
+    padding-top: 80px;
+    /* Space for fixed header */
+}
+
+/* ===================================
+   FIXED EDIT HEADER
+   =================================== */
+.edit-header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 1000;
+    background: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+    padding: 1rem 2rem;
+    transition: all 0.3s ease;
+}
+
+body.dark-mode .edit-header {
+    background: rgba(17, 17, 17, 0.95);
+    border-bottom-color: rgba(255, 255, 255, 0.1);
+}
+
+.edit-header-content {
+    max-width: 1400px;
+    margin: 0 auto;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 2rem;
+}
+
+.btn-back {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.5rem 1rem;
+    background: transparent;
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+    color: var(--text-color);
+    text-decoration: none;
+    font-size: 0.9rem;
+    font-weight: 500;
+    transition: all 0.2s ease;
+}
+
+.btn-back:hover {
+    background: rgba(0, 0, 0, 0.05);
+    border-color: rgba(0, 0, 0, 0.2);
+}
+
+body.dark-mode .btn-back {
+    border-color: rgba(255, 255, 255, 0.1);
+}
+
+body.dark-mode .btn-back:hover {
+    background: rgba(255, 255, 255, 0.05);
+    border-color: rgba(255, 255, 255, 0.2);
+}
+
+.edit-header-center {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+}
+
+.edit-status {
+    font-size: 0.85rem;
+    color: #666;
+    font-weight: 500;
+}
+
+.edit-status.unsaved {
+    color: #f59e0b;
+}
+
+.edit-status.saving {
+    color: #3b82f6;
+}
+
+.edit-status.saved {
+    color: #10b981;
+}
+
+.btn-save-project {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.75rem 1.5rem;
+    background: #10b981;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-size: 0.9rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.btn-save-project:hover {
+    background: #059669;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(16, 185, 129, 0.3);
+}
+
+.btn-save-project:active {
+    transform: translateY(0);
+}
+
+.btn-save-project:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+    transform: none;
+}
+
+/* ===================================
+   EDITABLE HERO IMAGE
+   =================================== */
+.editable-hero {
+    position: relative;
+    cursor: pointer;
+}
+
+.editable-hero .hero-overlay {
+    position: absolute;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.7);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 1rem;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.editable-hero:hover .hero-overlay {
+    opacity: 1;
+}
+
+.hero-placeholder {
+    width: 100%;
+    aspect-ratio: 16/9;
+    background: rgba(0, 0, 0, 0.05);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 1rem;
+    color: #999;
+    border: 2px dashed rgba(0, 0, 0, 0.1);
+    border-radius: 12px;
+}
+
+body.dark-mode .hero-placeholder {
+    background: rgba(255, 255, 255, 0.05);
+    border-color: rgba(255, 255, 255, 0.1);
+}
+
+.btn-hero-action {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.75rem 1.5rem;
+    background: white;
+    color: #111;
+    border: none;
+    border-radius: 8px;
+    font-size: 0.9rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.btn-hero-action:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+}
+
+.btn-hero-action.btn-remove {
+    background: #ef4444;
+    color: white;
+}
+
+.btn-hero-action.btn-remove:hover {
+    background: #dc2626;
+}
+
+/* ===================================
+   EDITABLE FIELDS
+   =================================== */
+.editable-title {
+    width: 100%;
+    background: transparent;
+    border: 2px solid transparent;
+    border-radius: 8px;
+    padding: 0.5rem;
+    margin: -0.5rem;
+    font-family: inherit;
+    font-size: inherit;
+    font-weight: inherit;
+    color: inherit;
+    transition: all 0.2s ease;
+}
+
+.editable-title:hover {
+    border-color: rgba(0, 0, 0, 0.1);
+    background: rgba(0, 0, 0, 0.02);
+}
+
+.editable-title:focus {
+    outline: none;
+    border-color: #3b82f6;
+    background: rgba(59, 130, 246, 0.05);
+}
+
+body.dark-mode .editable-title:hover {
+    border-color: rgba(255, 255, 255, 0.1);
+    background: rgba(255, 255, 255, 0.02);
+}
+
+body.dark-mode .editable-title:focus {
+    background: rgba(59, 130, 246, 0.1);
+}
+
+.editable-description {
+    width: 100%;
+    background: transparent;
+    border: 2px solid transparent;
+    border-radius: 8px;
+    padding: 0.75rem;
+    margin: -0.75rem;
+    font-family: inherit;
+    font-size: inherit;
+    line-height: inherit;
+    color: inherit;
+    resize: vertical;
+    min-height: 100px;
+    transition: all 0.2s ease;
+}
+
+.editable-description:hover {
+    border-color: rgba(0, 0, 0, 0.1);
+    background: rgba(0, 0, 0, 0.02);
+}
+
+.editable-description:focus {
+    outline: none;
+    border-color: #3b82f6;
+    background: rgba(59, 130, 246, 0.05);
+}
+
+body.dark-mode .editable-description:hover {
+    border-color: rgba(255, 255, 255, 0.1);
+    background: rgba(255, 255, 255, 0.02);
+}
+
+body.dark-mode .editable-description:focus {
+    background: rgba(59, 130, 246, 0.1);
+}
+
+.editable-meta {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+}
+
+.editable-meta .meta-item {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+}
+
+.editable-meta .meta-label {
+    font-size: 0.85rem;
+    color: #666;
+    font-weight: 500;
+    min-width: 80px;
+}
+
+.editable-input {
+    flex: 1;
+    background: transparent;
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    border-radius: 6px;
+    padding: 0.5rem 0.75rem;
+    font-family: inherit;
+    font-size: 0.9rem;
+    color: inherit;
+    transition: all 0.2s ease;
+}
+
+.editable-input:hover {
+    border-color: rgba(0, 0, 0, 0.2);
+    background: rgba(0, 0, 0, 0.02);
+}
+
+.editable-input:focus {
+    outline: none;
+    border-color: #3b82f6;
+    background: rgba(59, 130, 246, 0.05);
+}
+
+body.dark-mode .editable-input {
+    border-color: rgba(255, 255, 255, 0.1);
+}
+
+body.dark-mode .editable-input:hover {
+    border-color: rgba(255, 255, 255, 0.2);
+    background: rgba(255, 255, 255, 0.02);
+}
+
+body.dark-mode .editable-input:focus {
+    background: rgba(59, 130, 246, 0.1);
+}
+
+/* ===================================
+   GALLERY HEADER
+   =================================== */
+.gallery-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 2rem;
+    padding: 0 1rem;
+}
+
+.gallery-header h2 {
+    font-size: 1.5rem;
+    font-weight: 600;
+    color: var(--text-color);
+}
+
+.btn-add-images {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.75rem 1.5rem;
+    background: #3b82f6;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-size: 0.9rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.btn-add-images:hover {
+    background: #2563eb;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(59, 130, 246, 0.3);
+}
+
+/* ===================================
+   EDITABLE IMAGES
+   =================================== */
+.editable-image {
+    position: relative;
+    cursor: move;
+}
+
+.editable-image .img-container {
+    position: relative;
+}
+
+.image-controls {
+    position: absolute;
+    top: 0.75rem;
+    right: 0.75rem;
+    display: flex;
+    gap: 0.5rem;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.editable-image:hover .image-controls {
+    opacity: 1;
+}
+
+.btn-set-hero,
+.btn-delete-image,
+.btn-drag-handle {
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(10px);
+    border: none;
+    border-radius: 50%;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.btn-drag-handle {
+    color: #6b7280;
+    cursor: grab;
+}
+
+.btn-drag-handle:hover {
+    background: rgba(107, 114, 128, 0.1);
+    color: #374151;
+    transform: scale(1.1);
+}
+
+.btn-drag-handle:active {
+    cursor: grabbing;
+}
+
+.btn-set-hero {
+    color: #f59e0b;
+}
+
+.btn-set-hero.is-hero {
+    background: #f59e0b;
+    color: white;
+}
+
+.btn-set-hero:hover {
+    transform: scale(1.1);
+    box-shadow: 0 4px 12px rgba(245, 158, 11, 0.3);
+}
+
+.btn-delete-image {
+    color: #ef4444;
+}
+
+.btn-delete-image:hover {
+    background: #ef4444;
+    color: white;
+    transform: scale(1.1);
+    box-shadow: 0 4px 12px rgba(239, 68, 68, 0.3);
+}
+
+/* ===================================
+   EMPTY GALLERY STATE
+   =================================== */
+.empty-gallery {
+    padding: 4rem 2rem;
+    text-align: center;
+    color: #999;
+}
+
+.empty-gallery svg {
+    margin-bottom: 1rem;
+    opacity: 0.5;
+}
+
+.empty-gallery p {
+    font-size: 1.1rem;
+    margin-bottom: 1.5rem;
+}
+
+.btn-add-images-empty {
+    padding: 0.75rem 1.5rem;
+    background: #3b82f6;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-size: 0.9rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.btn-add-images-empty:hover {
+    background: #2563eb;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(59, 130, 246, 0.3);
+}
+
+/* ===================================
+   SORTABLE STATES (Drag & Drop)
+   =================================== */
+.sortable-ghost {
+    opacity: 0.4;
+    background: rgba(0, 0, 0, 0.05);
+}
+
+.sortable-chosen {
+    cursor: grabbing !important;
+}
+
+.sortable-drag {
+    cursor: grabbing !important;
+    opacity: 0.9;
+    transform: rotate(2deg) scale(1.05);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+    z-index: 9999;
+}
+
+/* ===================================
+   RESPONSIVE
+   =================================== */
+@media (max-width: 768px) {
+    .edit-header {
+        padding: 1rem;
+    }
+
+    .edit-header-content {
+        flex-direction: column;
+        gap: 1rem;
+    }
+
+    .btn-back,
+    .btn-save-project {
+        width: 100%;
+        justify-content: center;
+    }
+
+    .gallery-header {
+        flex-direction: column;
+        align-items: stretch;
+        gap: 1rem;
+    }
+
+    .btn-add-images {
+        width: 100%;
+        justify-content: center;
+    }
+
+    .editable-meta .meta-item {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .editable-meta .meta-label {
+        min-width: auto;
+    }
+}
+
+/* ===================================
+   GALLERY GRID POSITIONING
+   =================================== */
+/* Critical: Enable masonry layout positioning */
+body.edit-mode .works-grid {
+    position: relative;
+    /* Required for absolute positioned work-items */
+}
+
+body.edit-mode .work-item {
+    position: absolute;
+    /* Positioned by masonry JavaScript */
+}

@@ -1,0 +1,655 @@
+/**
+ * Wide Studio - Premium Lightbox Modal
+ * Desktop: Imagem edge-to-edge + descrição
+ * Mobile: Fullscreen com scroll
+ */
+
+/* =================================
+   LIGHTBOX MODAL BASE - Fullscreen
+   ================================= */
+.lightbox-modal {
+    position: fixed;
+    inset: 0;
+    z-index: 2000;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+    padding: 0;
+    background: var(--bg-color);
+}
+
+.lightbox-modal.open {
+    opacity: 1;
+    pointer-events: auto;
+}
+
+/* Overlay removido - fundo é o próprio modal */
+.lightbox-overlay {
+    display: none;
+}
+
+/* =================================
+   LIGHTBOX CONTENT - Fullscreen sem card
+   ================================= */
+.lightbox-content {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    overflow: hidden;
+    z-index: 1;
+}
+
+/* =================================
+   IMAGE CONTAINER - Centralizado com respiro
+   ================================= */
+.lightbox-image-container {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex: 1;
+    padding: 60px 80px;
+    /* Espaçamento respiro */
+    background: transparent;
+    overflow: hidden;
+}
+
+.lightbox-image-container.zoomed {
+    overflow: auto;
+}
+
+.lightbox-img {
+    max-width: 100%;
+    max-height: 100%;
+    width: auto;
+    height: auto;
+    object-fit: contain;
+    display: block;
+    border-radius: 0;
+    transform-origin: center center;
+    cursor: zoom-in !important;
+    user-select: none;
+}
+
+.lightbox-img.zoomed {
+    /* Transform aplicado via JS inline */
+    cursor: grab !important;
+}
+
+.lightbox-img.zoomed:active {
+    cursor: grabbing !important;
+}
+
+.lightbox-modal.open .lightbox-img {
+    animation: imageReveal 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+@keyframes imageReveal {
+    from {
+        opacity: 0;
+        transform: scale(0.98);
+    }
+
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+/* =================================
+   NAVIGATION ARROWS - Minimalistas
+   ================================= */
+.lightbox-nav {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    z-index: 10;
+    opacity: 0;
+    pointer-events: none;
+    padding: 8px;
+}
+
+.lightbox-modal.open .lightbox-nav {
+    opacity: 1;
+    pointer-events: auto;
+}
+
+.lightbox-nav:hover {
+    transform: translateY(-50%) scale(1.15);
+}
+
+.lightbox-nav:active {
+    transform: translateY(-50%) scale(0.95);
+}
+
+.lightbox-nav svg {
+    color: #000;
+    display: block;
+}
+
+.lightbox-nav-prev {
+    left: 30px;
+}
+
+.lightbox-nav-next {
+    right: 30px;
+}
+
+/* Hide arrows when disabled */
+.lightbox-nav:disabled {
+    opacity: 0.3;
+    cursor: not-allowed;
+    pointer-events: none;
+}
+
+/* Hide navigation when zoomed */
+.lightbox-image-container.zoomed .lightbox-nav {
+    opacity: 0;
+    pointer-events: none;
+}
+
+/* =================================
+   DETAILS PANEL - OCULTO
+   ================================= */
+.lightbox-details {
+    display: none !important;
+}
+
+/* Dark mode para lightbox details */
+body[data-dark-mode="true"] .lightbox-details {
+    background: var(--dark-bg-color);
+    border-left: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+/* Dark mode - setas brancas com sombra */
+body[data-dark-mode="true"] .lightbox-nav svg {
+    color: #fff;
+    filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.5));
+}
+
+/* =================================
+   TITLE ROW (Title + Year)
+   ================================= */
+.lightbox-title-row {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    align-items: baseline;
+    gap: 12px;
+    margin-bottom: 14px;
+    width: 100%;
+}
+
+.lightbox-title {
+    font-size: 1.3rem;
+    font-weight: 400;
+    letter-spacing: -0.03em;
+    line-height: 1.2;
+    margin: 0;
+    color: var(--text-color);
+    /* Pill styling */
+    display: inline-block;
+    background: transparent;
+    padding: 8px 16px;
+    border-radius: 50px;
+    width: fit-content;
+    border: 1px solid rgba(0, 0, 0, 0.12);
+}
+
+.lightbox-year {
+    display: none;
+}
+
+/* Dark mode para título pill */
+body[data-dark-mode="true"] .lightbox-title {
+    background: transparent;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+/* =================================
+   DESCRIPTION
+   ================================= */
+.lightbox-desc {
+    font-size: 0.92rem;
+    line-height: 1.7;
+    color: #000;
+    font-weight: 400;
+    margin: 0;
+}
+
+/* =================================
+   ACTIONS - Like discreto
+   ================================= */
+.lightbox-actions {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-top: 30px;
+}
+
+.like-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    background: transparent;
+    border: 1px solid rgba(0, 0, 0, 0.12);
+    border-radius: 50px;
+    padding: 6px 14px;
+    cursor: pointer;
+    font-size: 0.9rem;
+    color: #000;
+}
+
+.like-btn svg {
+    width: 18px;
+    height: 18px;
+    color: #000;
+}
+
+.like-btn.liked svg {
+    fill: #ff6b6b;
+    stroke: #ff6b6b;
+}
+
+#like-count {
+    font-weight: 500;
+    font-size: 0.9rem;
+    color: #000;
+    letter-spacing: 0.02em;
+}
+
+/* Hidden elements */
+.lightbox-logo,
+.lightbox-meta,
+.lightbox-footer,
+.lightbox-footer-section,
+.lightbox-badge,
+.lightbox-nav-hint,
+.lightbox-header,
+.lightbox-body,
+.user-avatar-placeholder,
+.user-name {
+    display: none;
+}
+
+/* =================================
+   CLOSE BUTTON - Fixo no canto superior direito
+   ================================= */
+.lightbox-close {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    width: 44px;
+    height: 44px;
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    z-index: 2001;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 0;
+    transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.lightbox-close:hover {
+    transform: rotate(90deg) scale(1.15);
+}
+
+.lightbox-close .line {
+    width: 18px;
+    height: 2px;
+    background-color: #000;
+    position: absolute;
+    border-radius: 2px;
+}
+
+.lightbox-close .line:first-child {
+    transform: rotate(45deg);
+}
+
+.lightbox-close .line:last-child {
+    transform: rotate(-45deg);
+}
+
+/* =================================
+   RESPONSIVE - TABLET
+   ================================= */
+@media (max-width: 1000px) {
+    .lightbox-modal {
+        padding: 30px;
+    }
+
+    .lightbox-content {
+        grid-template-columns: 1fr 300px;
+    }
+
+    .lightbox-details {
+        padding: 40px 30px;
+    }
+
+    .lightbox-title {
+        font-size: 1.4rem;
+    }
+
+    .lightbox-image-container {
+        min-height: 350px;
+    }
+}
+
+/* =================================
+   RESPONSIVE - MOBILE
+   Fullscreen com scroll
+   ================================= */
+@media (max-width: 768px) {
+    .lightbox-modal {
+        padding: 0;
+        overflow-y: auto;
+        overflow-x: hidden;
+        -webkit-overflow-scrolling: touch;
+        display: block;
+    }
+
+    .lightbox-content {
+        display: block;
+        position: relative;
+        width: 100%;
+        height: auto;
+        min-height: 100vh;
+    }
+
+    /* Imagem grande */
+    .lightbox-image-container {
+        width: 100%;
+        min-height: 100vh;
+        max-height: none;
+        padding: 80px 20px 40px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: default;
+    }
+
+    .lightbox-img {
+        width: 100%;
+        height: auto;
+        object-fit: contain;
+        max-width: 100%;
+    }
+
+    .lightbox-img.zoomed {
+        transform: scale(1.5);
+    }
+
+    /* Detalhes */
+    .lightbox-details {
+        display: block;
+        width: 100%;
+        padding: 25px 22px 50px;
+        background: transparent;
+        border-left: none;
+        border-top: 1px solid rgba(0, 0, 0, 0.08);
+    }
+
+    .lightbox-title-row {
+        display: flex;
+        gap: 10px;
+        margin-bottom: 12px;
+    }
+
+    .lightbox-title {
+        font-size: 1.3rem;
+        white-space: normal;
+        overflow: visible;
+    }
+
+    .lightbox-year {
+        font-size: 0.7rem;
+    }
+
+    .lightbox-desc {
+        font-size: 0.9rem;
+        line-height: 1.65;
+    }
+
+    .lightbox-actions {
+        margin-top: 20px;
+    }
+
+    .like-btn {
+        width: 28px;
+        height: 28px;
+    }
+
+    .like-btn svg {
+        width: 16px;
+        height: 16px;
+    }
+
+    #like-count {
+        font-size: 0.75rem;
+    }
+
+    /* Navigation arrows - ocultar no mobile */
+    .lightbox-nav {
+        display: none !important;
+    }
+
+    /* Close button fixo */
+    .lightbox-close {
+        position: fixed;
+        top: 12px;
+        right: 12px;
+        width: 36px;
+        height: 36px;
+        z-index: 100;
+    }
+
+    .lightbox-close .line {
+        width: 12px;
+    }
+}
+
+/* =================================
+   RESPONSIVE - SMALL MOBILE
+   ================================= */
+@media (max-width: 400px) {
+    .lightbox-details {
+        padding: 20px 18px 45px;
+    }
+
+    .lightbox-title {
+        font-size: 1.2rem;
+    }
+
+    .lightbox-desc {
+        font-size: 0.85rem;
+    }
+}
+
+/* =================================
+   LANDSCAPE MOBILE
+   ================================= */
+@media (max-width: 900px) and (orientation: landscape) {
+    .lightbox-modal {
+        padding: 20px;
+        display: flex;
+        align-items: center;
+        overflow: hidden;
+    }
+
+    .lightbox-overlay {
+        position: absolute;
+        background: rgba(243, 242, 238, 0.9);
+        backdrop-filter: blur(15px);
+    }
+
+    .lightbox-content {
+        display: grid;
+        grid-template-columns: 1fr 260px;
+        max-height: 90vh;
+        border-radius: 14px;
+        overflow: hidden;
+    }
+
+    .lightbox-image-container {
+        padding: 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: #000;
+    }
+
+    .lightbox-img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+    }
+
+    .lightbox-details {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        padding: 25px 20px;
+        overflow-y: auto;
+        background: #fff;
+    }
+
+    .lightbox-close {
+        position: absolute;
+    }
+}
+
+/* =================================
+   ANIMATIONS
+   ================================= */
+.lightbox-modal.open .lightbox-content {
+    animation: scaleIn 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+@keyframes scaleIn {
+    from {
+        opacity: 0;
+        transform: scale(0.96);
+    }
+
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+.lightbox-modal.open .lightbox-title-row,
+.lightbox-modal.open .lightbox-desc,
+.lightbox-modal.open .lightbox-actions {
+    animation: fadeIn 0.4s cubic-bezier(0.16, 1, 0.3, 1) backwards;
+}
+
+.lightbox-modal.open .lightbox-title-row {
+    animation-delay: 0.12s;
+}
+
+.lightbox-modal.open .lightbox-desc {
+    animation-delay: 0.18s;
+}
+
+.lightbox-modal.open .lightbox-actions {
+    animation-delay: 0.24s;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(8px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* =================================
+   DARK MODE - Lightbox Fullscreen
+   ================================= */
+body[data-dark-mode="true"] .lightbox-modal {
+    background: var(--dark-bg-color);
+}
+
+body[data-dark-mode="true"] .lightbox-details {
+    background: var(--dark-bg-color);
+    border-left: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+body[data-dark-mode="true"] .lightbox-title {
+    color: var(--dark-text-color);
+}
+
+body[data-dark-mode="true"] .lightbox-desc {
+    color: var(--dark-text-color);
+}
+
+body[data-dark-mode="true"] .lightbox-year {
+    color: var(--dark-text-color);
+}
+
+body[data-dark-mode="true"] .lightbox-desc {
+    color: #fff;
+}
+
+body[data-dark-mode="true"] .like-btn {
+    border-color: rgba(255, 255, 255, 0.2);
+    color: #fff;
+}
+
+body[data-dark-mode="true"] .like-btn svg {
+    color: #fff;
+}
+
+body[data-dark-mode="true"] #like-count {
+    color: #fff;
+}
+
+body[data-dark-mode="true"] .lightbox-close {
+    background: transparent;
+}
+
+body[data-dark-mode="true"] .lightbox-close:hover {
+    background: transparent;
+}
+
+body[data-dark-mode="true"] .lightbox-close .line {
+    background: #fff;
+}
+
+/* Mobile dark mode */
+@media (max-width: 768px) {
+    body[data-dark-mode="true"] .lightbox-details {
+        border-top: 1px solid rgba(255, 255, 255, 0.08);
+    }
+}
+
+/* Navigation arrows dark mode - SEM background */
+body[data-dark-mode="true"] .lightbox-nav {
+    background: transparent;
+}
+
+body[data-dark-mode="true"] .lightbox-nav:hover {
+    background: transparent;
+}
+
+body[data-dark-mode="true"] .lightbox-nav:disabled {
+    opacity: 0.2;
+}

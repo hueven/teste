@@ -1,0 +1,101 @@
+/* =================================
+   DARK MODE - HEADER (Premium Dark)
+   ================================= */
+body[data-dark-mode="true"] .top-bar {
+    /* Cor customizável 100% opaca */
+    background-color: var(--dark-bg-color);
+}
+
+body[data-dark-mode="true"] .top-bar.scrolled {
+    background-color: var(--dark-bg-color);
+}
+
+body[data-dark-mode="true"] .logo-svg {
+    color: var(--dark-text-color);
+}
+
+body[data-dark-mode="true"] .header-tagline {
+    color: var(--dark-text-color);
+}
+
+body[data-dark-mode="true"] .nav-btn {
+    color: var(--dark-text-color);
+    border-color: var(--dark-border-color);
+}
+
+body[data-dark-mode="true"] .nav-btn:hover {
+    background: rgba(255, 255, 255, 0.08);
+    border-color: rgba(255, 255, 255, 0.2);
+}
+
+body[data-dark-mode="true"] .nav-btn.active {
+    background: var(--dark-text-color);
+    color: var(--dark-bg-color);
+    border-color: var(--dark-text-color);
+}
+
+body[data-dark-mode="true"] .line {
+    background-color: var(--dark-text-color);
+}
+
+body[data-dark-mode="true"] .menu-overlay {
+    background-color: var(--dark-bg-color);
+}
+
+body[data-dark-mode="true"] .menu-link {
+    color: var(--dark-text-color);
+}
+
+/* Hero pill dark mode - usa cor do fundo da página */
+body[data-dark-mode="true"] .hero-pill {
+    background: var(--dark-bg-color) !important;
+    border: 1px solid rgba(255, 255, 255, 0.6) !important;
+    color: var(--dark-text-color) !important;
+}
+
+/* =================================
+   DARK MODE - SERVICES PAGE (Premium)
+   ================================= */
+body[data-dark-mode="true"] .services-title {
+    color: var(--dark-text-color);
+}
+
+/* =================================
+   DARK MODE - CONTACT PAGE (Premium)
+   ================================= */
+body[data-dark-mode="true"] .contact-title {
+    color: var(--dark-text-color);
+}
+
+body[data-dark-mode="true"] .contact-subtitle {
+    color: rgba(255, 255, 255, 0.65);
+}
+
+body[data-dark-mode="true"] .contact-card {
+    background: transparent;
+    border-color: var(--dark-border-color);
+    color: var(--dark-text-color);
+}
+
+body[data-dark-mode="true"] .contact-card:hover {
+    background: var(--dark-text-color);
+    color: var(--dark-bg-color);
+    border-color: var(--dark-text-color);
+}
+
+body[data-dark-mode="true"] .contact-card-icon {
+    border-color: var(--dark-border-color);
+}
+
+body[data-dark-mode="true"] .contact-card:hover .contact-card-icon {
+    background: var(--dark-bg-color);
+    color: var(--dark-text-color);
+}
+
+body[data-dark-mode="true"] .contact-location {
+    border-top-color: var(--dark-border-color);
+}
+
+body[data-dark-mode="true"] .contact-location-text {
+    color: rgba(255, 255, 255, 0.65);
+}
